@@ -1,3 +1,6 @@
+const MAX_CHARS = 150;
+
+
 const textareaEl = document.querySelector('.form__textarea');
 const counterEl = document.querySelector('.counter');
 const formEl = document.querySelector('.form');
@@ -6,19 +9,17 @@ const submitBtnEl = document.querySelector(".submit-btn");
 
 //Counter Component
 const inputHandler = () => {
-    const maxNumberChar = 150;
-    counterEl.textContent = maxNumberChar - textareaEl.value.length;
+    counterEl.textContent = MAX_CHARS - textareaEl.value.length;
 };
 
 textareaEl.addEventListener('input', inputHandler);
 
-// Submit Component
+// FORM Component
 const submitHandler = (event) => {
     //prevent default browser action
     event.preventDefault();
 
     const text = textareaEl.value;
-    console.log(text);
 
     //validate text
     if(text.includes("#") && text.length >= 5){
@@ -72,7 +73,7 @@ const submitHandler = (event) => {
 
     submitBtnEl.blur();
 
-    counterEl.textContent = 150;
+    counterEl.textContent = MAX_CHARS;
 
 };
 
