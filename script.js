@@ -82,20 +82,9 @@ const submitHandler = (event) => {
 
 formEl.addEventListener('submit', submitHandler);
 
+const createFeedbackItem = (feedbackItem) => {
 
-// FEEDBACK COMPONENT
-fetch('https://bytegrad.com/course-assets/js/1/api/feedbacks').then(response => {
-    if(!response.ok){
-        console.log("ERROR has occurred with fetching");
-        return;
-    }
-    return response.json();
-}).then(data => {
-    spinnerEl.remove();
-    console.log(data.feedbacks[5]);
-
-    data.feedbacks.forEach(feedbackItem => {
-        const feedbackItemHTML = `
+    const feedbackItemHTML = `
         <li class="feedback">
             <button class="upvote">
                 <i class="fa-solid fa-caret-up upvote__icon"></i>
@@ -111,6 +100,22 @@ fetch('https://bytegrad.com/course-assets/js/1/api/feedbacks').then(response => 
             <p class="feedback__date">${feedbackItem.daysAgo === 0 ? "NEW" : `${feedbackItem.daysAgo}d`}</p>
         </li>`;        
         feedbackListEl.insertAdjacentHTML('beforeend', feedbackItemHTML);
+
+};
+
+// FEEDBACK COMPONENT
+fetch('https://bytegrad.com/course-assets/js/1/api/feedbacks').then(response => {
+    if(!response.ok){
+        console.log("ERROR has occurred with fetching");
+        return;
+    }
+    return response.json();
+}).then(data => {
+    spinnerEl.remove();
+    console.log(data.feedbacks[5]);
+
+    data.feedbacks.forEach(feedbackItem => {
+        createFeedbackItem(feedbackItem);
     });
 
 }).catch(error => {
