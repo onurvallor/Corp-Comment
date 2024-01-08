@@ -51,26 +51,15 @@ const submitHandler = (event) => {
     const upvoteCount = 0;
     const daysAgo = 0;
 
-    //new feedback item html
-    const feedbackItemHTML = `
-        <li class="feedback">
-            <button class="upvote">
-                <i class="fa-solid fa-caret-up upvote__icon"></i>
-                <span class="upvote__count">${upvoteCount}</span>
-            </button>
-            <section class="feedback__badge">
-                <p class="feedback__letter">${badgeLetter}</p>
-            </section>
-            <div class="feedback__content">
-                <p class="feedback__company">${company}</p>
-                <p class="feedback__text">${text}</p>
-            </div>
-            <p class="feedback__date">${daysAgo === 0 ? "NEW" : `${daysAgo}d`}</p>
-        </li>
-    `;
-    
-    //insert into HTML
-    feedbackListEl.insertAdjacentHTML('beforeend', feedbackItemHTML);
+    feedbackItem = {
+        upvoteCount: upvoteCount,
+        company: company,
+        badgeLetter: badgeLetter,
+        daysAgo: daysAgo,
+        text: text
+    };
+
+    renderFeedbackItem(feedbackItem);
 
     textareaEl.value = "";
 
@@ -80,9 +69,7 @@ const submitHandler = (event) => {
 
 };
 
-formEl.addEventListener('submit', submitHandler);
-
-const createFeedbackItem = (feedbackItem) => {
+const renderFeedbackItem = (feedbackItem) => {
 
     const feedbackItemHTML = `
         <li class="feedback">
@@ -103,6 +90,8 @@ const createFeedbackItem = (feedbackItem) => {
 
 };
 
+formEl.addEventListener('submit', submitHandler);
+
 // FEEDBACK COMPONENT
 fetch('https://bytegrad.com/course-assets/js/1/api/feedbacks').then(response => {
     if(!response.ok){
@@ -115,7 +104,7 @@ fetch('https://bytegrad.com/course-assets/js/1/api/feedbacks').then(response => 
     console.log(data.feedbacks[5]);
 
     data.feedbacks.forEach(feedbackItem => {
-        createFeedbackItem(feedbackItem);
+        renderFeedbackItem(feedbackItem);
     });
 
 }).catch(error => {
