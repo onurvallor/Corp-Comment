@@ -112,6 +112,28 @@ const renderFeedbackItem = (feedbackItem) => {
 formEl.addEventListener('submit', submitHandler);
 
 // FEEDBACK COMPONENT
+const clickHandler = (event) => {
+    const clickedEl = event.target;
+
+    const upvoteIntention = clickedEl.className.includes('upvote');
+
+    if(upvoteIntention){
+        const upvoteBtnEl = clickedEl.closest('.upvote');
+
+        const upvoteCountEl = upvoteBtnEl.querySelector('.upvote__count');
+        upvoteCountEl.textContent = ++upvoteCountEl.textContent;
+
+        upvoteBtnEl.disabled = true;
+
+    }else{
+        clickedEl.closest('.feedback').classList.toggle('feedback--expand');
+    }
+
+    console.log(clickedEl);
+}
+
+feedbackListEl.addEventListener('click', clickHandler);
+
 fetch(`${BASE_API_URL}/feedbacks`).then(response => {
     if(!response.ok){
         console.log("ERROR has occurred with fetching");
