@@ -13,10 +13,7 @@ const inputHandler = () => {
     counterEl.textContent = MAX_CHARS - textareaEl.value.length;
 };
 
-textareaEl.addEventListener('input', inputHandler);
-
 // FORM Component
-
 const showVisualIndicator = (textCheck) => {
 
     const className = textCheck === 'valid' ? 'form--valid' : 'form--invalid';
@@ -109,9 +106,6 @@ const renderFeedbackItem = (feedbackItem) => {
 
 };
 
-formEl.addEventListener('submit', submitHandler);
-
-// FEEDBACK COMPONENT
 const clickHandler = (event) => {
     const clickedEl = event.target;
 
@@ -132,6 +126,11 @@ const clickHandler = (event) => {
     console.log(clickedEl);
 }
 
+textareaEl.addEventListener('input', inputHandler);
+
+formEl.addEventListener('submit', submitHandler);
+
+// FEEDBACK COMPONENT
 feedbackListEl.addEventListener('click', clickHandler);
 
 fetch(`${BASE_API_URL}/feedbacks`).then(response => {
