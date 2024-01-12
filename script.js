@@ -126,6 +126,26 @@ const clickHandler = (event) => {
     console.log(clickedEl);
 }
 
+const clickHandler2 = (event) => {
+    const clickedEl = event.target;
+
+    if(clickedEl.className.includes('hashtags')){
+        return;
+    }
+
+   const companyNameFromHashtag = clickedEl.textContent.substring(1).toLowerCase().trim();
+
+   feedbackListEl.childNodes.forEach(childNode => {
+        if(childNode.nodeType === 3) return;
+
+        const companyNameFromFeedbackItem = childNode.querySelector('.feedback__company').textContent.toLowerCase().trim();
+    
+        if(companyNameFromHashtag !== companyNameFromFeedbackItem){
+            childNode.remove();
+        }
+    });
+};
+
 textareaEl.addEventListener('input', inputHandler);
 
 formEl.addEventListener('submit', submitHandler);
@@ -150,3 +170,10 @@ fetch(`${BASE_API_URL}/feedbacks`).then(response => {
 }).catch(error => {
     feedbackListEl.textContent = `Failed to fetch feedback item. Error message ${error.message}`;
 });
+
+
+//HASHTAG 
+const hashtagListEl = document.querySelector(".hashtags");
+
+hashtagListEl.addEventListener('click', clickHandler2);
+
