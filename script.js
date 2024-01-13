@@ -7,6 +7,7 @@ const formEl = document.querySelector('.form');
 const feedbackListEl = document.querySelector('.feedbacks');
 const submitBtnEl = document.querySelector(".submit-btn");
 const spinnerEl = document.querySelector('.spinner');
+const hashtagListEl = document.querySelector(".hashtags");
 
 //Counter Component
 const inputHandler = () => {
@@ -126,25 +127,31 @@ const clickHandler = (event) => {
     console.log(clickedEl);
 }
 
-const clickHandler2 = (event) => {
-    const clickedEl = event.target;
 
-    if(clickedEl.className.includes('hashtags')){
-        return;
-    }
-
-   const companyNameFromHashtag = clickedEl.textContent.substring(1).toLowerCase().trim();
-
-   feedbackListEl.childNodes.forEach(childNode => {
-        if(childNode.nodeType === 3) return;
-
-        const companyNameFromFeedbackItem = childNode.querySelector('.feedback__company').textContent.toLowerCase().trim();
+(() => {
+    const clickHandler2 = (event) => {
+        const clickedEl = event.target;
     
-        if(companyNameFromHashtag !== companyNameFromFeedbackItem){
-            childNode.remove();
+        if(clickedEl.className.includes('hashtags')){
+            return;
         }
-    });
-};
+    
+       const companyNameFromHashtag = clickedEl.textContent.substring(1).toLowerCase().trim();
+    
+       feedbackListEl.childNodes.forEach(childNode => {
+            if(childNode.nodeType === 3) return;
+    
+            const companyNameFromFeedbackItem = childNode.querySelector('.feedback__company').textContent.toLowerCase().trim();
+        
+            if(companyNameFromHashtag !== companyNameFromFeedbackItem){
+                childNode.remove();
+            }
+        });
+    };
+    hashtagListEl.addEventListener('click', clickHandler2);
+})()
+
+
 
 textareaEl.addEventListener('input', inputHandler);
 
@@ -173,7 +180,5 @@ fetch(`${BASE_API_URL}/feedbacks`).then(response => {
 
 
 //HASHTAG 
-const hashtagListEl = document.querySelector(".hashtags");
 
-hashtagListEl.addEventListener('click', clickHandler2);
 
